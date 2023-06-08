@@ -35,7 +35,7 @@ RSpec.describe "/astronauts", type: :request do
   describe "GET /index" do
     it "renders a successful response" do
       Astronaut.create! valid_attributes
-      get astronauts_url, headers: valid_headers, as: :json
+      get astronauts_url, headers: valid_headers, as: :xml
       expect(response).to be_successful
     end
   end
@@ -43,7 +43,7 @@ RSpec.describe "/astronauts", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       astronaut = Astronaut.create! valid_attributes
-      get astronaut_url(astronaut), as: :json
+      get astronaut_url(astronaut), as: :xml
       expect(response).to be_successful
     end
   end
@@ -53,15 +53,15 @@ RSpec.describe "/astronauts", type: :request do
       it "creates a new Astronaut" do
         expect {
           post astronauts_url,
-               params: { astronaut: valid_attributes }, headers: valid_headers, as: :json
+               params: { astronaut: valid_attributes }, headers: valid_headers, as: :xml
         }.to change(Astronaut, :count).by(1)
       end
 
-      it "renders a JSON response with the new astronaut" do
+      it "renders a xml response with the new astronaut" do
         post astronauts_url,
-             params: { astronaut: valid_attributes }, headers: valid_headers, as: :json
+             params: { astronaut: valid_attributes }, headers: valid_headers, as: :xml
         expect(response).to have_http_status(:created)
-        expect(response.content_type).to match(a_string_including("application/json"))
+        expect(response.content_type).to match(a_string_including("application/xml"))
       end
     end
 
@@ -69,15 +69,15 @@ RSpec.describe "/astronauts", type: :request do
       it "does not create a new Astronaut" do
         expect {
           post astronauts_url,
-               params: { astronaut: invalid_attributes }, as: :json
+               params: { astronaut: invalid_attributes }, as: :xml
         }.to change(Astronaut, :count).by(0)
       end
 
-      it "renders a JSON response with errors for the new astronaut" do
+      it "renders a xml response with errors for the new astronaut" do
         post astronauts_url,
-             params: { astronaut: invalid_attributes }, headers: valid_headers, as: :json
+             params: { astronaut: invalid_attributes }, headers: valid_headers, as: :xml
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to match(a_string_including("application/json"))
+        expect(response.content_type).to match(a_string_including("application/xml"))
       end
     end
   end
@@ -91,27 +91,27 @@ RSpec.describe "/astronauts", type: :request do
       it "updates the requested astronaut" do
         astronaut = Astronaut.create! valid_attributes
         patch astronaut_url(astronaut),
-              params: { astronaut: new_attributes }, headers: valid_headers, as: :json
+              params: { astronaut: new_attributes }, headers: valid_headers, as: :xml
         astronaut.reload
         skip("Add assertions for updated state")
       end
 
-      it "renders a JSON response with the astronaut" do
+      it "renders a xml response with the astronaut" do
         astronaut = Astronaut.create! valid_attributes
         patch astronaut_url(astronaut),
-              params: { astronaut: new_attributes }, headers: valid_headers, as: :json
+              params: { astronaut: new_attributes }, headers: valid_headers, as: :xml
         expect(response).to have_http_status(:ok)
-        expect(response.content_type).to match(a_string_including("application/json"))
+        expect(response.content_type).to match(a_string_including("application/xml"))
       end
     end
 
     context "with invalid parameters" do
-      it "renders a JSON response with errors for the astronaut" do
+      it "renders a xml response with errors for the astronaut" do
         astronaut = Astronaut.create! valid_attributes
         patch astronaut_url(astronaut),
-              params: { astronaut: invalid_attributes }, headers: valid_headers, as: :json
+              params: { astronaut: invalid_attributes }, headers: valid_headers, as: :xml
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to match(a_string_including("application/json"))
+        expect(response.content_type).to match(a_string_including("application/xml"))
       end
     end
   end
@@ -120,8 +120,17 @@ RSpec.describe "/astronauts", type: :request do
     it "destroys the requested astronaut" do
       astronaut = Astronaut.create! valid_attributes
       expect {
-        delete astronaut_url(astronaut), headers: valid_headers, as: :json
+        delete astronaut_url(astronaut), headers: valid_headers, as: :xml
       }.to change(Astronaut, :count).by(-1)
+    end
+  end
+
+  describe 'GET /export' do
+    let(:astronauts) { create_list(:astronaut, 5000000)}
+
+    it 'exports XML file' do
+      get export_astronauts_url
+      expect(response.headers['Content-Disposition']).to eq 'attachment; filename="astronauts.xml"; filename*=UTF-8\'\'astronauts.xml'
     end
   end
 end
