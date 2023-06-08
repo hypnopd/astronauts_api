@@ -10,32 +10,30 @@ class AstronautsController < ApplicationController
       else
         Astronaut.all
       end
-
-    render xml: @astronauts.as_json
+    render json: @astronauts
   end
 
   # GET /astronauts/1
   def show
-    render xml: @astronaut.as_json
+    render json: @astronaut
   end
 
   # POST /astronauts
   def create
     @astronaut = Astronaut.new(astronaut_params)
-
     if @astronaut.save
-      render xml: @astronaut.as_json, status: :created, location: @astronaut
+      render json: @astronaut, status: :created, location: @astronaut
     else
-      render xml: @astronaut.errors, status: :unprocessable_entity
+      render json: @astronaut.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /astronauts/1
   def update
     if @astronaut.update(astronaut_params)
-      render xml: @astronaut.as_json
+      render json: @astronaut, status: :ok
     else
-      render xml: @astronaut.errors, status: :unprocessable_entity
+      render json: @astronaut.errors, status: :unprocessable_entity
     end
   end
 
@@ -48,12 +46,14 @@ class AstronautsController < ApplicationController
   def export
     file_name = "astronauts.xml"
     xml = Astronaut.export_to_xml
-
     send_data xml, filename: file_name, type: 'text/xml'
   end
 
   # POST /astronauts/import
   def import
+    uploaded_file = params[:file]
+    ImportAstronautsJob.perform_later(uploaded_file.path)
+    render status: :ok
   end
 
   private

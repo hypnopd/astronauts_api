@@ -1,6 +1,7 @@
 require 'xml'
 
 class Astronaut < ApplicationRecord
+
   validates :first_name, :last_name, presence: true
   validates :age, numericality: { only_integer: true, allow_nil: true }
 
@@ -15,13 +16,11 @@ class Astronaut < ApplicationRecord
     document.to_s
   end
 
-  private
-
-  def build_astronaut_xml(document, astronaut)
+  def build_astronaut_xml(document)
     document.root << elem = XML::Node.new('astronaut')
 
-    elem['first_name'] = astronaut.first_name
-    elem['last_name'] = astronaut.last_name
-    elem['age'] = astronaut.age.to_s
+    elem['first_name'] = first_name
+    elem['last_name'] = last_name
+    elem['age'] = age.to_s
   end
 end
