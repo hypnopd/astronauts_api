@@ -44,6 +44,18 @@ class AstronautsController < ApplicationController
     @astronaut.destroy
   end
 
+  # GET /astronauts/export
+  def export
+    file_name = "astronauts.xml"
+    xml = Astronaut.export_to_xml
+
+    send_data xml, filename: file_name, type: 'text/xml'
+  end
+
+  # POST /astronauts/import
+  def import
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_astronaut

@@ -9,9 +9,10 @@ gem "rails", "~> 7.0.5"
 # Use Postgres as the database for Active Record
 gem 'pg', '~> 1.5', '>= 1.5.3'
 gem 'sidekiq', '~> 7.1', '>= 7.1.1'
-
+gem 'libxml-ruby', '~> 4.1', '>= 4.1.1'
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
+gem 'activerecord-import', '~> 1.4', '>= 1.4.1'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
