@@ -53,6 +53,11 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
+  config.rails_semantic_logger.started    = true
+  config.rails_semantic_logger.processing = true
+  config.rails_semantic_logger.rendered   = true
+
+  config.log_level = :debug
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

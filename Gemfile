@@ -13,6 +13,8 @@ gem 'libxml-ruby', '~> 4.1', '>= 4.1.1'
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
 gem 'activerecord-import', '~> 1.4', '>= 1.4.1'
+gem "amazing_print"
+gem "rails_semantic_logger"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"

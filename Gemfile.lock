@@ -68,6 +68,7 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    amazing_print (1.5.0)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     builder (3.2.4)
@@ -151,6 +152,10 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
+    rails_semantic_logger (4.12.0)
+      rack
+      railties (>= 5.1)
+      semantic_logger (~> 4.13)
     railties (7.0.5)
       actionpack (= 7.0.5)
       activesupport (= 7.0.5)
@@ -178,6 +183,8 @@ GEM
       rspec-mocks (~> 3.12)
       rspec-support (~> 3.12)
     rspec-support (3.12.0)
+    semantic_logger (4.13.0)
+      concurrent-ruby (~> 1.0)
     sidekiq (7.1.1)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
@@ -197,6 +204,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-import (~> 1.4, >= 1.4.1)
+  amazing_print
   bootsnap
   factory_bot_rails (~> 6.2)
   faker (~> 3.2)
@@ -206,6 +214,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 5.0)
   rails (~> 7.0.5)
+  rails_semantic_logger
   rspec-rails (~> 6.0.0)
   sidekiq (~> 7.1, >= 7.1.1)
   tzinfo-data
