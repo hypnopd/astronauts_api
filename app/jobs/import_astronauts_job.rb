@@ -12,21 +12,15 @@ class ImportAstronautsJob < ApplicationJob
 
     while reader.read
       if reader.node_type == XML::Reader::TYPE_ELEMENT && reader.name == 'astronaut'
-        chunk = {}
-        while reader.name != 'age'
-          reader.move_to_next_attribute
-          chunk[reader.name.to_sym] = reader.value
-        end
-
-        batch << chunk
+        batch << read_element(reader)
         count += 1
+      end
 
-        if count >= chunk_size
-          puts "Processing #{count} users"
-          process_batch(batch)
-          batch = []
-          count = 0
-        end
+      if count >= chunk_size
+        puts "Processing #{count} users"
+        process_batch(batch)
+        batch = []
+        count = 0
       end
     end
 
@@ -34,6 +28,16 @@ class ImportAstronautsJob < ApplicationJob
   end
 
   private
+
+  def read_element(reader)
+    chunk = {}
+    while reader.name != 'age'
+      reader.move_to_next_attribute
+      chunk[reader.name.to_sym] = reader.value
+    end
+
+    chunk
+  end
 
   def process_batch(batch)
     batch.map do |chunk|

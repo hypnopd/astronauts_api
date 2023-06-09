@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<astronauts>
+  <astronaut first_name="Test" last_name="Import" age=""/>
+  <astronaut first_name="Test" last_name="Importer" age="33"/>
+  <astronaut first_name="Test" last_name="Porter" age="25"/>
+  <astronaut first_name="Test" last_name="Port" age="33"/>
+</astronauts>

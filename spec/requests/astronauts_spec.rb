@@ -128,9 +128,22 @@ RSpec.describe "/astronauts", type: :request do
   describe 'GET /export' do
     let(:astronauts) { create_list(:astronaut, 5000000)}
 
-    it 'exports XML file' do
+    it 'exports astronauts to XML file' do
       get export_astronauts_url
       expect(response.headers['Content-Disposition']).to eq 'attachment; filename="astronauts.xml"; filename*=UTF-8\'\'astronauts.xml'
+    end
+  end
+
+  describe 'POST /import' do
+    let(:import_file) { Rack::Test::UploadedFile.new('spec/fixtures/files/import.xml', 'text/xml') } #('import.xml', 'text/xml') }
+
+    it 'imports astronauts from XML file' do
+      post import_astronauts_path, params: { file: import_file }
+      perform_enqueued_jobs
+      expect(Astronaut.count).to eql 4
+      last_astronaut = Astronaut.last
+      expect(last_astronaut.first_name).to eq 'Test'
+      expect(last_astronaut.last_name).to eq 'Port'
     end
   end
 end
